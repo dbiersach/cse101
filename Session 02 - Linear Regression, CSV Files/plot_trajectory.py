@@ -20,8 +20,6 @@ def main():
     file_path = Path(__file__).parent / file_name
     # time in nanoseconds, height in centimeters
     t, h = np.genfromtxt(file_path, delimiter=",", unpack=True)
-    print(t)
-    print(h)
 
     # Calculate line of best fit
     slope, yint = fit_linear(t, h)
