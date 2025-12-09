@@ -12,6 +12,7 @@ import busio
 import digitalio
 import matplotlib.pyplot as plt
 import numpy as np
+from ad9833_blinka import AD9833
 from matplotlib.ticker import (
     AutoMinorLocator,
     FormatStrFormatter,
@@ -19,8 +20,6 @@ from matplotlib.ticker import (
     MultipleLocator,
 )
 from scipy.signal import find_peaks
-
-from ad9833_blinka import AD9833
 
 # Configure analog input pin (FROM the AD9833)
 pin_adc = analogio.AnalogIn(board.ADC1)
