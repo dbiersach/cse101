@@ -6,7 +6,7 @@
 # - Uses correct address fields for FREQ0/FREQ1 and PHASE0/PHASE1.
 # - Control register bits follow datasheet (B28, HLB, FSELECT, PSELECT, RESET, etc.).
 # - Correct waveform selection per Table 15 (sine/triangle/square MSB or MSB/2).
-# - Defaults to SPI mode CPOL=1, CPHA=0 (a.k.a. mode 2) which matches ADI guidance.
+# - Defaults to SPI mode CPOL=1, PCA=0 (a.k.a. mode 2) which matches ADI guidance.
 # - Clean, minimal API with properties: waveform, frequency, phase; methods for reset
 #   and selecting registers.
 #
@@ -49,7 +49,9 @@ except ImportError:  # pragma: no cover - helpful message if Blinka not present
 try:
     from adafruit_bus_device.spi_device import SPIDevice
 except ImportError as e:
-    raise ImportError("Please install adafruit_bus_device: pip install adafruit-circuitpython-busdevice") from e
+    raise ImportError(
+        "Please install adafruit_bus_device: pip install adafruit-circuitpython-busdevice"
+    ) from e
 
 
 # -----------------------------
@@ -62,11 +64,11 @@ _HLB = 1 << 12  # ignored when B28=1
 _FSELECT = 1 << 11  # 0: FREQ0, 1: FREQ1 used by phase accumulator
 _PSELECT = 1 << 10  # 0: PHASE0, 1: PHASE1 used
 _RESET = 1 << 8
-_SLEEP1 = 1 << 7   # disable internal MCLK to NCO
-_SLEEP12 = 1 << 6   # power down DAC
-_OPBITEN = 1 << 5   # route MSB(/2) to VOUT instead of DAC output
-_DIV2 = 1 << 3   # with OPBITEN=1: 1 = MSB, 0 = MSB/2
-_MODE = 1 << 1   # with OPBITEN=0: 1 = triangle, 0 = sine
+_SLEEP1 = 1 << 7  # disable internal MCLK to NCO
+_SLEEP12 = 1 << 6  # power down DAC
+_OPBITEN = 1 << 5  # route MSB(/2) to VOUT instead of DAC output
+_DIV2 = 1 << 3  # with OPBITEN=1: 1 = MSB, 0 = MSB/2
+_MODE = 1 << 1  # with OPBITEN=0: 1 = triangle, 0 = sine
 
 # Frequency register write prefixes (top two bits select destination per Table 8).
 _FREQ0_PREFIX = 0x4000  # 0b01 << 14
@@ -115,7 +117,8 @@ class AD9833:
 
         # SPI device wrapper will manage locks and keep CS low for contiguous writes
         self._device = SPIDevice(
-            spi, cs,
+            spi,
+            cs,
             baudrate=baudrate,
             polarity=polarity,
             phase=phase,
@@ -123,7 +126,7 @@ class AD9833:
 
         # sensible default waveform: sine, DAC enabled
         self._control &= ~_OPBITEN  # ensure DAC connected
-        self._control &= ~_MODE     # sine
+        self._control &= ~_MODE  # sine
         self._control &= ~_SLEEP12  # DAC enabled
         self._write_control()
 
@@ -213,8 +216,8 @@ class AD9833:
 
         # Convert to 28-bit tuning word: f_out = (MCLK / 2^28) * word
         word28 = int(round(hz * (1 << 28) / self.mclk)) & 0x0FFFFFFF
-        lsw = prefix | (word28 & 0x3FFF)           # lower 14 bits
-        msw = prefix | ((word28 >> 14) & 0x3FFF)   # upper 14 bits
+        lsw = prefix | (word28 & 0x3FFF)  # lower 14 bits
+        msw = prefix | ((word28 >> 14) & 0x3FFF)  # upper 14 bits
 
         # With B28=1, device latches the full 28-bit word after the second write.
         # Keep FSYNC low for both 16-bit writes.
@@ -227,12 +230,15 @@ class AD9833:
         :param reg: 0 for PHASE0, 1 for PHASE1, or None to use currently selected register
         """
         import math
+
         if reg is None:
             reg = self._phase_sel
         reg = 1 if reg else 0
         prefix = _PHASE1_PREFIX if reg else _PHASE0_PREFIX
         # 12-bit phase word maps 0..2π to 0..4095
-        phase_word = int(round((radians % (2 * math.pi)) * (4096.0 / (2 * math.pi)))) & 0x0FFF
+        phase_word = (
+            int(round((radians % (2 * math.pi)) * (4096.0 / (2 * math.pi)))) & 0x0FFF
+        )
         self._write_words([prefix | phase_word])
 
     # -------- Properties --------
@@ -311,18 +317,17 @@ if __name__ == "__main__":
     import board
 
     # Create SPI (MISO not used by AD9833)
-    spi_test = busio.SPI(board.GP18, MOSI=board.GP19, MISO=None)
+    spi_test = busio.SPI(clock=board.GP18, MOSI=board.GP19, MISO=None)
 
     # Chip select (FSYNC) on GP22
     cs_test = digitalio.DigitalInOut(board.GP22)
     cs_test.switch_to_output(value=True)  # idle high (not selected)
 
-    # Instantiate driver (1 MHz, SPI mode 2 by default)
-    dds = AD9833(spi_test, cs_test, mclk=25_000_000.0, baudrate=1_000_000, polarity=1, phase=0)
+    dds = AD9833(spi_test, cs_test, baudrate=100_000)
+    dds.reset(state=True)  # Hold in reset
+    dds.waveform = "sine"  # Set waveform type
+    dds.frequency = 10_000  # Load frequency while in reset
+    dds.phase = 0.0  # Load phase while in reset
+    dds.reset(state=False)  # Release reset to start output
 
-    # Reset the device, select sine, set 100 Hz on the currently selected register (FREQ0 by default)
-    dds.reset()
-    dds.waveform = "sine"
-    dds.frequency = 100.0
-
-    print("AD9833 configured: 100 Hz sine on VOUT using FREQ0.")
+    print("AD9833 configured: 10 kHz sine on VOUT using FREQ0.")

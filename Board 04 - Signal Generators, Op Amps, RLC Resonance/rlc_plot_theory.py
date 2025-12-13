@@ -17,7 +17,7 @@ def calc_rms(w):
     C = 93.7e-9  # Capacitance in Farads (nF to F)
 
     Q = C * Emf  # Initial capacitor charge
-    I = 0.0  # Initial capacitor current is zero
+    I = 0.0  # Initial capacitor current is zero  # noqa: E741
     V = 0.0  # Initial capacitor voltage is zero
 
     t = 0.0
@@ -27,7 +27,7 @@ def calc_rms(w):
 
     while t < tf:  # Simulate circuit
         alpha = (Emf * np.sin(w * t) - I * R - Q / C) / L
-        I = I + alpha * dt
+        I = I + alpha * dt  # noqa: E741
         Q = Q + I * dt
         V = V + (I * R1) ** 2  # Voltage through R1
         t = t + dt

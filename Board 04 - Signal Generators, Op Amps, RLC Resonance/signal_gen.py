@@ -21,21 +21,6 @@ from matplotlib.ticker import (
 )
 from scipy.signal import find_peaks
 
-# Configure analog input pin (FROM the AD9833)
-pin_adc = analogio.AnalogIn(board.ADC1)
-
-# Configure chip select (FSYNC on AD9833) on GP22
-pin_cs = digitalio.DigitalInOut(board.GP22)
-pin_cs.switch_to_output(value=True)  # idle high (not selected)
-
-# Create SPI (MISO not used by AD9833)
-spi_bus = busio.SPI(board.GP18, MOSI=board.GP19, MISO=None)
-
-# Configure AD9833 Signal Generator
-wave_gen = AD9833(spi_bus, pin_cs)
-wave_gen.waveform = "sine"
-wave_gen.frequency = 30.0
-
 # Set number of samples
 n = 1000
 print(f"Reading {n} samples...")
@@ -43,6 +28,24 @@ print(f"Reading {n} samples...")
 # Allocate arrays
 times_ns = np.empty(n, dtype=np.int64)  # nanoseconds since t0
 adc_raw = np.empty(n, dtype=np.uint16)  # AnalogIn.value is 0..65535
+
+# Configure analog input pin (FROM the AD9833)
+pin_adc = analogio.AnalogIn(board.ADC1)
+
+# Create SPI (MISO not used by AD9833)
+spi_bus = busio.SPI(clock=board.GP18, MOSI=board.GP19, MISO=None)
+
+# Configure chip select (FSYNC on AD9833) on GP22
+pin_cs = digitalio.DigitalInOut(board.GP22)
+pin_cs.switch_to_output(value=True)  # idle high (not selected)
+
+# Configure AD9833 Signal Generator
+wave_gen = AD9833(spi_bus, pin_cs, baudrate=100_000)
+wave_gen.reset(state=True)  # Hold in reset
+wave_gen.waveform = "sine"
+wave_gen.frequency = 30  # Load frequency (Hz) while in reset
+wave_gen.phase = 0.0  # Load phase while in reset
+wave_gen.reset(state=False)  # Power up and start outputting
 
 # Measure the ADC as quickly as possible
 for i in range(n):

@@ -15,23 +15,8 @@ import board
 import busio
 import digitalio
 import numpy as np
-from tqdm import tqdm
-
 from ad9833_blinka import AD9833
-
-# Configure analog input pin (FROM the AD9833)
-pin_adc = analogio.AnalogIn(board.ADC1)
-
-# Configure chip select (FSYNC on AD9833) on GP22
-pin_cs = digitalio.DigitalInOut(board.GP22)
-pin_cs.switch_to_output(value=True)  # idle high (not selected)
-
-# Create SPI (MISO not used by AD9833)
-spi_bus = busio.SPI(board.GP18, MOSI=board.GP19, MISO=None)
-
-# Configure AD9833 Signal Generator
-wave_gen = AD9833(spi_bus, pin_cs)
-wave_gen.waveform = "sine"
+from tqdm import tqdm
 
 # Set number of samples
 n = 500
@@ -41,16 +26,34 @@ print(f"Reading {n} samples...")
 freq = np.zeros(n, float)  # frequency in Hz
 volts_actual = np.zeros(n, float)  # volts
 
+# Configure analog input pin (FROM the AD9833)
+pin_adc = analogio.AnalogIn(board.ADC1)
+
+# Configure chip select (FSYNC on AD9833) on GP22
+pin_cs = digitalio.DigitalInOut(board.GP22)
+pin_cs.switch_to_output(value=True)  # idle high (not selected)
+
+# Create SPI (MISO not used by AD9833)
+spi_bus = busio.SPI(clock=board.GP18, MOSI=board.GP19, MISO=None)
+
+# Configure AD9833 Signal Generator
+wave_gen = AD9833(spi_bus, pin_cs, baudrate=100_000)
+wave_gen.reset(state=True)  # Hold in reset
+wave_gen.waveform = "sine"
+wave_gen.frequency = 30  # Load frequency (Hz) while in reset
+wave_gen.phase = 0.0  # Load phase while in reset
+wave_gen.reset(state=False)  # Power up and start outputting
+
 # Read input voltage over increasing wave generator frequency
 for i in tqdm(range(n)):
     # Set new sine wave frequency
     freq[i] = i * 10
     wave_gen.frequency = freq[i]
-    v = pin_adc.value / 65536 * 3.3
+    v = (pin_adc.value or 0) / 65536 * 3.3
     if i > 0:
         # Stay within 92% volts of prior frequency to reduce jitter
         while v < volts_actual[i - 1] * 0.92:
-            v = pin_adc.value / 65536 * 3.3
+            v = (pin_adc.value or 0) / 65536 * 3.3
     volts_actual[i] = v
 
 # Convert frequencies to kHz
