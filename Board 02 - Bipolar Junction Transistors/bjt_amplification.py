@@ -15,6 +15,7 @@ import board
 import busio
 import matplotlib.pyplot as plt
 import numpy as np
+from adafruit_ads1x15 import ads1x15
 from adafruit_ads1x15.analog_in import AnalogIn
 from tqdm import tqdm
 
@@ -27,7 +28,7 @@ dac.raw_value = 0
 
 # Configure ADS1115 ADC in differential mode (P0+, P1-)
 adc = ads.ADS1115(i2c_bus)
-adc_chan = AnalogIn(adc, ads.P0, ads.P1)
+adc_chan = AnalogIn(adc, ads1x15.Pin.A0, ads1x15.Pin.A1)
 
 # Set number of samples
 n = 450
