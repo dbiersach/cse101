@@ -1,4 +1,4 @@
-# diode_ivcurve
+# diode_ivcurve.py
 # Measure current through PN junction diode
 
 # Uses (1) MCP4725 DAC
@@ -43,7 +43,7 @@ amps = np.zeros(n, dtype=float)
 for i in tqdm(range(n)):
     # Set DAC output voltage
     dac.raw_value = i * 8
-    volts[i] = dac.raw_value / 4096 * 3.015
+    volts[i] = dac.raw_value / 4096 * 3.015  # 3.015V max output
     # Calculate average amps using 100 samples
     a = 0
     for _ in range(100):
@@ -53,10 +53,6 @@ for i in tqdm(range(n)):
 
 # Turn off DAC voltage to circuit
 dac.raw_value = 0
-
-# Find index of sample with maximum amps, then use
-# that index to find the corresponding max voltage
-max_volts = volts[np.argmax(amps)]
 
 # Plot the graph on the main axes
 plt.figure(Path(__file__).name)
@@ -69,6 +65,5 @@ plt.gca().xaxis.set_major_locator(MultipleLocator(0.1))
 plt.gca().xaxis.set_major_formatter(FormatStrFormatter("%.2f"))
 plt.gca().yaxis.set_major_locator(MultipleLocator(1.0))
 plt.gca().yaxis.set_major_formatter(FormatStrFormatter("%.2f"))
-plt.axvline(max_volts, color="green", linestyle="--")
 plt.grid(which="both", color="lightgray", linestyle="dotted", alpha=0.5)
 plt.show()

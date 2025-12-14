@@ -55,8 +55,10 @@ amps = np.zeros(n, dtype=float)
 # through the diode using the INA219 current sensor
 for i in tqdm(range(n)):
     # Set DAC output voltage
+    # 1125 + (49) * 60 = 4065 (out of a max 4095)
     dac.raw_value = 1125 + i * 60
-    volts[i] = dac.raw_value / 4095 * 2.42
+    # Max voltage at the Emitter of PN2222A BJT is 2.36V
+    volts[i] = dac.raw_value / 4095 * 2.36
     time.sleep(0.2)
     # Calculate average amps using 100 samples
     a = 0
