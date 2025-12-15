@@ -9,6 +9,7 @@ import time
 import board
 import digitalio
 
+# Define GPIO pins for each segment of the 7-segment display
 segments = {
     "A": digitalio.DigitalInOut(board.GP20),  # Top
     "B": digitalio.DigitalInOut(board.GP19),  # Top Right
@@ -19,9 +20,11 @@ segments = {
     "G": digitalio.DigitalInOut(board.GP22),  # Middle
 }
 
+# Set all GPIO pins as outputs
 for pin in segments.values():
     pin.direction = digitalio.Direction.OUTPUT
 
+# Define which segments to light up for each digit
 digits = {
     0: "ABCDEF",
     1: "BC",
@@ -38,12 +41,15 @@ digits = {
 print("Displaying digits. Press Ctrl+C to stop.")
 try:
     while True:
+        # Loop through digits 0-9
         for n in range(10):
+            # Turn off all segments
             for pin in segments.values():
                 pin.value = False
 
             print(f"Displaying digit: {n}")
 
+            # Turn on the required segments for the current digit
             for c in digits[n]:
                 pin = segments[c]
                 pin.value = True
@@ -51,6 +57,7 @@ try:
             time.sleep(3)
 
 except KeyboardInterrupt:
+    # Turn off all segments before exiting
     for pin in segments.values():
         pin.value = False
     print("Display stopped.")
