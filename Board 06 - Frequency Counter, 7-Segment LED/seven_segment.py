@@ -1,14 +1,13 @@
 # seven_segment.py
-# Blink external RED LED on and off
+# Display digits 0-9 on a 7-segment LED display
 
 # Uses (1) 330 Ohm Resistor
-# Uses (1) RED LED (660 nm Wavelength, 1.85V, 20mA)
+# Uses (1) Seven-Segment LED Display (Common Cathode)
 
 import time
 
 import board
 import digitalio
-
 
 segments = {
     "A": digitalio.DigitalInOut(board.GP20),  # Top
@@ -52,4 +51,6 @@ try:
             time.sleep(3)
 
 except KeyboardInterrupt:
+    for pin in segments.values():
+        pin.value = False
     print("Display stopped.")
