@@ -10,6 +10,7 @@ dependencies = [
     "adafruit-circuitpython-busdevice>=5.2.14",
     "adafruit-circuitpython-debouncer>=2.0.13",
     "adafruit-circuitpython-ina219>=3.4.31",
+    "adafruit-circuitpython-ina260>=1.3.20",
     "adafruit-circuitpython-mcp4725>=1.4.19",
     "adafruit-circuitpython-mlx90393>=2.3.7",
     "adafruit-circuitpython-mmc56x3>=1.0.14",

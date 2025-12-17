@@ -86,6 +86,20 @@ wheels = [
 ]
 
 [[package]]
+name = "adafruit-circuitpython-ina260"
+version = "1.3.20"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "adafruit-blinka" },
+    { name = "adafruit-circuitpython-busdevice" },
+    { name = "adafruit-circuitpython-register" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a4/a1/3c415fb3d78641ef9d811ce275ef89ccb4e5387fb0849d5ac73e8ace5aaa/adafruit_circuitpython_ina260-1.3.20.tar.gz", hash = "sha256:7829c4006683bf904d5d29512101c87086dc52bcb18a6eeaa85555a27e3f7adf", size = 26318, upload-time = "2025-10-20T16:47:58.757Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/25/75/066ca3b2da224511e9003bf6ecf52cbce0845c48cd2e6a0ac330bd3288b3/adafruit_circuitpython_ina260-1.3.20-py3-none-any.whl", hash = "sha256:c3956a417b6bf58a08f874811b5f85c6b8180626f28bf90382b4bf91a063d6c8", size = 7239, upload-time = "2025-10-20T16:47:56.886Z" },
+]
+
+[[package]]
 name = "adafruit-circuitpython-mcp4725"
 version = "1.4.19"
 source = { registry = "https://pypi.org/simple" }
@@ -351,6 +365,7 @@ dependencies = [
     { name = "adafruit-circuitpython-busdevice" },
     { name = "adafruit-circuitpython-debouncer" },
     { name = "adafruit-circuitpython-ina219" },
+    { name = "adafruit-circuitpython-ina260" },
     { name = "adafruit-circuitpython-mcp4725" },
     { name = "adafruit-circuitpython-mlx90393" },
     { name = "adafruit-circuitpython-mmc56x3" },
@@ -378,6 +393,7 @@ requires-dist = [
     { name = "adafruit-circuitpython-busdevice", specifier = ">=5.2.14" },
     { name = "adafruit-circuitpython-debouncer", specifier = ">=2.0.13" },
     { name = "adafruit-circuitpython-ina219", specifier = ">=3.4.31" },
+    { name = "adafruit-circuitpython-ina260", specifier = ">=1.3.20" },
     { name = "adafruit-circuitpython-mcp4725", specifier = ">=1.4.19" },
     { name = "adafruit-circuitpython-mlx90393", specifier = ">=2.3.7" },
     { name = "adafruit-circuitpython-mmc56x3", specifier = ">=1.0.14" },
