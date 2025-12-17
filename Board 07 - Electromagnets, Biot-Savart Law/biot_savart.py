@@ -5,6 +5,7 @@
 # Uses (1) Adafruit INA260 Current Sensor
 # Uses (1) Adafruit DRV8833 DC/Stepper Motor Driver
 # Uses (1) Adafruit 5V Electromagnet
+# Uses (1) 330 Ω resistor
 
 from pathlib import Path
 
