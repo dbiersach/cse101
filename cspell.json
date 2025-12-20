@@ -200,6 +200,7 @@
         "ipython",
         "irfft",
         "iscomplexobj",
+        "isscalar",
         "ivcurve",
         "jaxpr",
         "joedevivo",
