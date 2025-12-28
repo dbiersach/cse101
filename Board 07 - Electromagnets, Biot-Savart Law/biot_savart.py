@@ -5,7 +5,9 @@
 # Uses (1) Adafruit INA260 Current Sensor
 # Uses (1) Adafruit DRV8833 DC/Stepper Motor Driver
 # Uses (1) Adafruit 5V Electromagnet
+# Uses (1) Adafruit 200mm Qwiic Cable
 # Uses (1) 330 Ω resistor
+
 
 from pathlib import Path
 
@@ -44,8 +46,8 @@ def fit_linear(x, y):
 
 def main():
     # Configure the Adafruit MMC5603 Triple-axis Magnetometer
-    # Use slower I2C speed for reliability
-    i2c_bus0 = busio.I2C(scl=board.SCL0, sda=board.SDA0)  # Qwiic Connector
+    # Connect via the Under Plate on-board Qwiic cable (SCL0, SDA0)
+    i2c_bus0 = busio.I2C(board.SCL0, board.SDA0)
     magnetometer = adafruit_mmc56x3.MMC5603(i2c_bus0)
 
     # Configure the Adafruit INA260 Current Sensor
@@ -79,20 +81,8 @@ def main():
         num_samples = 50
         for _ in range(num_samples):
             current[i] += ina260.current
-            try:
-                mag_x, mag_y, mag_z = magnetometer.magnetic
-                field_strength[i] += np.sqrt(mag_x**2 + mag_y**2 + mag_z**2)
-            except (RuntimeError, OSError):
-                # Reinitialize I2C bus and magnetometer
-                try:
-                    while not i2c_bus0.try_lock():
-                        pass
-                    i2c_bus0.unlock()
-                    i2c_bus0.deinit()
-                    i2c_bus0 = busio.I2C(board.SCL0, board.SDA0)
-                    magnetometer = adafruit_mmc56x3.MMC5603(i2c_bus0)
-                except (RuntimeError, OSError):
-                    pass
+            mag_x, mag_y, mag_z = magnetometer.magnetic
+            field_strength[i] += np.sqrt(mag_x**2 + mag_y**2 + mag_z**2)
         current[i] /= num_samples
         field_strength[i] /= num_samples
 
