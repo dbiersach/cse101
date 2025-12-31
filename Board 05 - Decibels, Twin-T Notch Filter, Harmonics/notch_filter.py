@@ -1,9 +1,11 @@
-# wave_generator.py
-# Generate 800 Hz sine and square waves
+# notch_filter.py
+# Test a Twin-T Notch Filter (750 Hz center frequency)
 
 # Uses (1) AITRIP AD9833 Signal Generator
-# Uses (1) Adafruit TLV2462 Op Amp
-# Uses (1) 10K Ohm and (1) 22K Ohm Resistor
+# Uses (1) Microchip MCP6002 Op-Amp
+# Uses (1) 10K Ohm and (5) 22K Ohm Resistors
+# Uses (4) 10nf Capacitors
+# Uses (1) Adafruit 8 Ohm Speaker
 
 import time
 
