@@ -60,7 +60,7 @@ for i in tqdm(range(n)):
     # Max voltage at the Emitter of PN2222A BJT is 2.36V
     volts[i] = dac.raw_value / 4095 * 2.36
     time.sleep(0.2)
-    # Calculate average amps using 100 samples
+    # Calculate average amps using 50 samples
     a = 0
     for _ in range(50):
         # Read current flowing through load resistor
