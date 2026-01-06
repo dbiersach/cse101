@@ -29,12 +29,12 @@ pin_charge.value = False
 
 # Set number of samples
 n = 1000
+half_n = int(n / 2)
 print(f"Reading {n} samples...")
 times = np.zeros(n, dtype=float)
 volts = np.zeros(n, dtype=float)
 
 # Energize circuit (charge capacitor)
-half_n = int(n / 2)
 pin_charge.value = True
 for i in tqdm(range(half_n)):
     times[i] = time.time_ns()
