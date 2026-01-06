@@ -52,7 +52,6 @@ times = (times - times[0]) / 1e9
 volts = volts * (3.3 / 65535)
 
 # Find the middle time value
-# mid_time = times[-1] / 2
 mid_time = times[half_n]
 
 # Calculate theoretical performance curve
