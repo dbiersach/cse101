@@ -21,7 +21,6 @@ i2c_bus = busio.I2C(board.SCL0, board.SDA0)
 dac = adafruit_mcp4725.MCP4725(i2c_bus)
 
 required_voltage = 1.97
-required_voltage = 2.64
 
 # Set DAC output voltage
 # The NPN BJT emitter follower causes a 0.6V drop from 3.3V
