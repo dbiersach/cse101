@@ -9,14 +9,10 @@
 
 import time
 
-import analogio
 import board
 import busio
 import digitalio
 from ad9833_blinka import AD9833
-
-# Configure analog input pin (FROM the AD9833)
-pin_adc = analogio.AnalogIn(board.ADC1)
 
 # Create SPI (MISO not used by AD9833)
 spi_bus = busio.SPI(clock=board.GP18, MOSI=board.GP19, MISO=None)
