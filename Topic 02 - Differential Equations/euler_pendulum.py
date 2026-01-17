@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """euler_pendulum.py"""
 
 from pathlib import Path

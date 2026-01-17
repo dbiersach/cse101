@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """fluorine18_decay.py"""
 
 from pathlib import Path

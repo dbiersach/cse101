@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """mc_parabola.py"""
 
 from pathlib import Path

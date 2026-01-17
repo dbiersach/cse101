@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """harmonograph_instructor.py"""
 
 from pathlib import Path

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """sphere_sampling.py"""
 
 from pathlib import Path

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """iris_analysis.py"""
 
 from pathlib import Path

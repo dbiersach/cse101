@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """complex_algebra.py"""
 
 import numpy as np

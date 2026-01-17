@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """fft.py"""
 
 from pathlib import Path
@@ -94,7 +94,6 @@ if __name__ == "__main__":
     # file_name = "space_signal2.csv"
     # file_name = "space_signal3.csv"
     # file_name = "sunspots.csv"
-    # file_name = "samples_decay.csv"
-    # file_name = "unknown_wave.csv"
     # file_name = "samples_square.csv"
+    # file_name = "samples_decay.csv"
     main(file_name)

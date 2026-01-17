@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """mc_hypersphere.py"""
 
 import numpy as np

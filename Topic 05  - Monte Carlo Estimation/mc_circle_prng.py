@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
 """mc_circle_prng.py"""
 
 from pathlib import Path
