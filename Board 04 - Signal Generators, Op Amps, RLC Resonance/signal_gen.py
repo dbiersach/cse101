@@ -52,7 +52,7 @@ for i in range(n):
     adc_raw[i] = pin_adc.value
     times_ns[i] = time.perf_counter_ns()
 
-# Convert to volts and times
+# Convert to volts and seconds
 vol_ref = 3.3  # Maximum RP2040 ADC input is 3.3V
 volts = adc_raw.astype(np.float32) * (vol_ref / 65535.0)
 times_ns -= times_ns[0]
