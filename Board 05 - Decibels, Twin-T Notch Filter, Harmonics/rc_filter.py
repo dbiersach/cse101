@@ -8,7 +8,7 @@ from matplotlib.ticker import MultipleLocator
 
 # Circuit parameters
 V_s = 3.0  # Source voltage amplitude (V)
-R = 10_000  # Resistance (Ohms) - 10kΩ
+R = 22_000  # Resistance (Ohms) - 22kΩ
 C = 10e-9  # Capacitance (Farads) - 10nF
 tau = R * C  # Time constant
 f_c = 1 / (2 * np.pi * tau)  # Cutoff frequency (Hz)

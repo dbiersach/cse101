@@ -1,5 +1,5 @@
 # notch_filter.py
-# Test a Twin-T Notch Filter (750 Hz center frequency)
+# Test a Twin-T Notch Filter (723 Hz center frequency)
 
 # Uses (1) AITRIP AD9833 Signal Generator
 # Uses (1) Microchip MCP6002 Op-Amp
@@ -24,21 +24,25 @@ pin_cs.switch_to_output(value=True)  # idle high (not selected)
 # Configure AD9833 Signal Generator
 wave_gen = AD9833(spi_bus, pin_cs, baudrate=100_000)
 
-for _ in range(4):
-    print("Sine wave at 750 Hz...")
-    wave_gen.reset(state=True)  # Hold in reset
-    wave_gen.waveform = "sine"  # Load waveform type while in reset
-    wave_gen.frequency = 750  # Load frequency (Hz) while in reset
-    wave_gen.phase = 0.0  # Load phase while in reset
-    wave_gen.reset(state=False)  # Power up and start outputting
-    time.sleep(4.0)
+try:
+    for _ in range(4):
+        print("Sine wave at 723 Hz...")
+        wave_gen.reset(state=True)  # Hold in reset
+        wave_gen.waveform = "sine"  # Load waveform type while in reset
+        wave_gen.frequency = 723  # Load frequency (Hz) while in reset
+        wave_gen.phase = 0.0  # Load phase while in reset
+        wave_gen.reset(state=False)  # Power up and start outputting
+        time.sleep(4.0)
 
-    print("Square wave at 750 Hz...")
+        print("Square wave at 723 Hz...")
+        wave_gen.reset(state=True)  # Hold in reset
+        wave_gen.waveform = "square"  # Load waveform type while in reset
+        wave_gen.frequency = 723  # Load frequency (Hz) while in reset
+        wave_gen.phase = 0.0  # Load phase while in reset
+        wave_gen.reset(state=False)  # Power up and start outputting
+        time.sleep(4.0)
+except KeyboardInterrupt:
+    pass
+finally:
+    print("Signal generator if OFF.")
     wave_gen.reset(state=True)  # Hold in reset
-    wave_gen.waveform = "square"  # Load waveform type while in reset
-    wave_gen.frequency = 725  # Load frequency (Hz) while in reset
-    wave_gen.phase = 0.0  # Load phase while in reset
-    wave_gen.reset(state=False)  # Power up and start outputting
-    time.sleep(4.0)
-
-wave_gen.reset(state=True)  # Hold in reset
