@@ -1,4 +1,4 @@
-#!/usr/bin/env uv run
+#!/usr/bin/env -S uv run
 """mercury_precession.py"""
 
 # Simulate Mercury's heliocentric 2D orbit

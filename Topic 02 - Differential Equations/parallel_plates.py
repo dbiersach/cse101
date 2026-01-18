@@ -1,4 +1,4 @@
-#!/usr/bin/env uv run
+#!/usr/bin/env -S uv run
 """parallel_plates.py"""
 
 from pathlib import Path

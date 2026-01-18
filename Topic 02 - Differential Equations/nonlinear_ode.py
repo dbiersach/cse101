@@ -1,4 +1,4 @@
-#!/usr/bin/env uv run
+#!/usr/bin/env -S uv run
 """nonlinear_ode.py"""
 
 from pathlib import Path

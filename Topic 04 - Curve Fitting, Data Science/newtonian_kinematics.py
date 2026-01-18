@@ -1,4 +1,4 @@
-#!/usr/bin/env uv run
+#!/usr/bin/env -S uv run
 """newtonian_kinematics.py"""
 
 from pathlib import Path

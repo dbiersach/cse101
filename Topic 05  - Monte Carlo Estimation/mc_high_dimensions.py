@@ -1,4 +1,4 @@
-#!/usr/bin/env uv run
+#!/usr/bin/env -S uv run
 """mc_high_dimensions.py"""
 
 from pathlib import Path

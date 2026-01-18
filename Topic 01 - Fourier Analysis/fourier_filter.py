@@ -1,4 +1,4 @@
-#!/usr/bin/env uv run
+#!/usr/bin/env -S uv run
 """fourier_filter.py"""
 
 from pathlib import Path

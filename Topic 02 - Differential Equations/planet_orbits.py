@@ -1,4 +1,4 @@
-#!/usr/bin/env uv run
+#!/usr/bin/env -S uv run
 """planet_orbits.py"""
 
 # Simulate heliocentric 2D orbits (Newtonian inverse-square gravity)
