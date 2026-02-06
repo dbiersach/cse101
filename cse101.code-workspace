@@ -14,7 +14,7 @@
         "editor.formatOnSave": true,
         "editor.formatOnPaste": true,
         "editor.codeActionsOnSave": {
-             "source.organizeImports.ruff": "explicit"
+            "source.organizeImports.ruff": "explicit"
         },
         "editor.unusualLineTerminators": "prompt",
         "files.autoSave": "afterDelay",
@@ -23,8 +23,8 @@
         "python.analysis.completeFunctionParens": true,
         "python.analysis.diagnosticSeverityOverrides": {
             "reportArgumentType": "none",
-            "reportAssignmentType" : "none",
-            "reportAttributeAccessIssue" : "none",
+            "reportAssignmentType": "none",
+            "reportAttributeAccessIssue": "none",
             "reportCallIssue": "none",
             "reportImplicitStringConcatenation": "none",
             "reportIndexIssue": "none",
@@ -32,8 +32,8 @@
             "reportMissingModuleSource": "none",
             "reportMissingParameterType": "none",
             "reportMissingTypeStubs": "none",
-            "reportOptionalMemberAccess":"none",
-            "reportPrivateImportUsage": "none",    
+            "reportOptionalMemberAccess": "none",
+            "reportPrivateImportUsage": "none",
             "reportUnknownArgumentType": "none",
             "reportUnknownMemberType": "none",
             "reportUnknownParameterType": "none",
@@ -47,9 +47,9 @@
         "python.terminal.activateEnvInCurrentTerminal": false,
         "python.terminal.activateEnvironment": false,
         "output.smartScroll.enabled": false,
-        "notebook.formatOnSave.enabled": true,                
-        "notebook.formatOnCellExecution": true,        
-        "editor.fontSize": 18,        
+        "notebook.formatOnSave.enabled": true,
+        "notebook.formatOnCellExecution": true,
+        "editor.fontSize": 18,
         "terminal.integrated.fontSize": 18,
         "jupyter.widgetScriptSources": [
             "jsdelivr.com",
@@ -58,14 +58,19 @@
         "python.terminal.executeInFileDir": true,
         "terminal.integrated.enablePersistentSessions": false,
         "terminal.integrated.shellIntegration.enabled": false,
-		"terminal.integrated.env.windows": {"BLINKA_U2IF": "1"},      
-		"terminal.integrated.env.linux": {"BLINKA_U2IF": "1"},
+        "terminal.integrated.env.windows": {
+            "BLINKA_U2IF": "1"
+        },
+        "terminal.integrated.env.linux": {
+            "BLINKA_U2IF": "1"
+        },
         "terminal.integrated.env.osx": {
             "BLINKA_U2IF": "1"
         },
         "[jsonc]": {
             "editor.defaultFormatter": "vscode.json-language-features"
         },
+        "editor.accessibilitySupport": "off",
     },
     "launch": {
         "version": "0.2.0",
