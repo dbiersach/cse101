@@ -71,6 +71,7 @@
             "editor.defaultFormatter": "vscode.json-language-features"
         },
         "editor.accessibilitySupport": "off",
+        "python.defaultInterpreterPath": "",
     },
     "launch": {
         "version": "0.2.0",
