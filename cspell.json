@@ -161,6 +161,7 @@
         "figsize",
         "finfo",
         "flatnonzero",
+        "fmax",
         "fontsize",
         "fonttools",
         "fontweight",
