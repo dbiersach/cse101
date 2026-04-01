@@ -7,6 +7,7 @@ import numpy as np
 import serial
 import serial.tools.list_ports
 from matplotlib.ticker import AutoMinorLocator
+from tqdm import tqdm
 
 
 def send_cmd(ser, cmd):
@@ -56,18 +57,22 @@ def plot_capture(volts, time_ms):
 
     v = volts.astype(np.float64)
 
-    # FFT on full capture
-    fft_mag = np.abs(np.fft.rfft(v)) * 2.0 / N
+    # Use Blackman Windowed FFT for reduced spectral leakage
+    window = np.blackman(N)
+    window_power = np.sqrt(np.mean(window**2))
+    v_windowed = v * window
+    fft_mag = np.abs(np.fft.rfft(v_windowed)) * 2.0 / (N * window_power)
     freqs = np.fft.rfftfreq(N, d=1.0 / SPS)
 
-    # Dominant tone bin (ignore DC)
-    k = int(np.argmax(fft_mag[1:])) + 1
+    # Dominant tone bin (ignore DC) — use unwindowed FFT for peak detection
+    fft_mag_rect = np.abs(np.fft.rfft(v)) * 2.0 / N
+    min_bin = int(1000 / (SPS / N))  # ignore below 1 kHz
+    k = int(np.argmax(fft_mag_rect[min_bin:])) + min_bin
 
     # Refine peak via parabolic interpolation on *log* magnitude
-    # delta is fractional-bin offset in [-0.5, 0.5] for well-behaved peaks
-    y1 = np.log(fft_mag[k - 1] + 1e-30)
-    y2 = np.log(fft_mag[k] + 1e-30)
-    y3 = np.log(fft_mag[k + 1] + 1e-30)
+    y1 = np.log(fft_mag_rect[k - 1] + 1e-30)
+    y2 = np.log(fft_mag_rect[k] + 1e-30)
+    y3 = np.log(fft_mag_rect[k + 1] + 1e-30)
     delta = 0.5 * (y1 - y3) / (y1 - 2.0 * y2 + y3)
 
     # Refined frequency estimate
@@ -98,7 +103,7 @@ def plot_capture(volts, time_ms):
     ax2.plot(freqs / 1000.0, 20 * np.log10(fft_mag + 1e-12), linewidth=0.6)
     ax2.set_xlabel("Frequency (kHz)")
     ax2.set_ylabel("Magnitude (dB)")
-    ax2.set_title("Frequency Spectrum")
+    ax2.set_title("Frequency Spectrum (Blackman Window)")
     ax2.grid(True, alpha=0.3)
 
     # Zoom logic (start checking at <= 50 kHz)
@@ -119,14 +124,35 @@ def plot_capture(volts, time_ms):
 
 
 def oscilloscope(ser):
-    send_cmd(ser, "neo 255 0 0 ")
     # 800_000 / 65535 ≈ 12.207 kHz (FFT bin center frequency)
     # send_cmd(ser, "sig sine 12207")
     # send_cmd(ser, "sig sine 35246")
     send_cmd(ser, "sig sine 10000")
     volts, time_ms = capture_adc(ser)
     plot_capture(volts, time_ms)
-    send_cmd(ser, "neo 0 0 0")
+
+
+def dac_buffer_test(ser):
+    """Test DAC buffer by sweeping through values and measuring with ADC."""
+    dac_steps = range(0, 4096, 117)
+    results = []
+    for step in tqdm(dac_steps):
+        send_cmd(ser, f"dac {step}")
+        time.sleep(0.1)
+        volts, _ = capture_adc(ser)
+        measured = np.mean(volts)
+        expected = step / 4095 * 3.27
+        results.append((expected, measured))
+    send_cmd(ser, "dac 0")
+    expected_v, measured_v = zip(*results)
+    plt.plot(expected_v, expected_v, "k--", label="Ideal")
+    plt.plot(expected_v, measured_v, "r-", label="Measured")
+    plt.xlabel("Expected Voltage (V)")
+    plt.ylabel("Measured Voltage (V)")
+    plt.title("DAC vs Actual Output — MCP6022 alone into 47Ω")
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.show()
 
 
 def main():
@@ -142,6 +168,7 @@ def main():
 
     ser = serial.Serial(port.device, timeout=5)
     oscilloscope(ser)
+    # dac_buffer_test(ser)
 
 
 if __name__ == "__main__":

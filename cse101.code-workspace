@@ -7,7 +7,7 @@
     "settings": {
         "workbench.colorCustomizations": {
             "tab.activeBorder": "#3cff00",
-            "tab.unfocusedActiveBorder": "#000000",
+            "tab.unfocusedActiveBorder": "#000000"
         },
         "debug.terminal.clearBeforeReusing": false,
         "editor.defaultFormatter": "charliermarsh.ruff",
@@ -39,13 +39,13 @@
             "reportUnknownParameterType": "none",
             "reportUnknownVariableType": "none",
             "reportUntypedFunctionDecorator": "none",
-            "reportUnusedVariable": "none",
+            "reportUnusedVariable": "none"
         },
         "python.analysis.inlayHints.variableTypes": false,
         "python.analysis.inlayHints.functionReturnTypes": false,
         "python.analysis.stubPath": "",
-        "python.terminal.activateEnvInCurrentTerminal": false,
-        "python.terminal.activateEnvironment": false,
+        "python.terminal.activateEnvInCurrentTerminal": true,
+        "python.terminal.activateEnvironment": true,
         "output.smartScroll.enabled": false,
         "notebook.formatOnSave.enabled": true,
         "notebook.formatOnCellExecution": true,
@@ -55,8 +55,8 @@
             "jsdelivr.com",
             "unpkg.com"
         ],
-        "python.terminal.executeInFileDir": true,
-        "terminal.integrated.enablePersistentSessions": false,
+        "python.terminal.executeInFileDir": false,
+        "terminal.integrated.enablePersistentSessions": true,
         "terminal.integrated.shellIntegration.enabled": false,
         "terminal.integrated.env.windows": {
             "BLINKA_U2IF": "1"
@@ -71,7 +71,7 @@
             "editor.defaultFormatter": "vscode.json-language-features"
         },
         "editor.accessibilitySupport": "off",
-        "python.defaultInterpreterPath": "",
+        "python.defaultInterpreterPath": ""
     },
     "launch": {
         "version": "0.2.0",
@@ -82,7 +82,7 @@
                 "request": "launch",
                 "program": "${file}",
                 "console": "integratedTerminal",
-                "cwd": "${fileDirname}",
+                "cwd": "${workspaceFolder}",
                 "justMyCode": true
             }
         ]
