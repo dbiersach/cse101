@@ -71,7 +71,9 @@
             "editor.defaultFormatter": "vscode.json-language-features"
         },
         "editor.accessibilitySupport": "off",
-        "python.defaultInterpreterPath": ""
+        "python.defaultInterpreterPath": "",
+        "chat.fontSize": 14,
+        "chat.editor.fontSize": 14
     },
     "launch": {
         "version": "0.2.0",
