@@ -22,14 +22,25 @@ dependencies = [
     "adafruit-circuitpython-register>=1.11.1",
     "adafruit-circuitpython-si5351>=1.4.9",
     "adafruit-circuitpython-ticks>=1.1.5",
-    "black>=25.12.0",
     "hidapi>=0.14.0.post4",
+    # Pin to the stable 6.x line: ipykernel 7's subshell/control-channel
+    # rewrite drops execute_reply/idle messages on Windows, leaving VS Code
+    # cells stuck spinning even though the kernel finished (vscode-jupyter #17228).
+    "ipykernel<7",
+    "ipympl",
+    "ipython",
+    "jupyter",
     "matplotlib>=3.10.7",
     "numba>=0.63.1",
     "numpy>=2.3.5",
     "pandas>=2.3.3",
-    "pyqt6>=6.10.1",
+    # pygame-ce, not pygame: upstream pygame ships no Python 3.14 wheel, and
+    # building it from source fails on Windows. pygame-ce is the community
+    # fork and a drop-in replacement - it still imports as "pygame".
+    "pygame-ce",
     "pyserial>=3.5",
+    "pyside6",
+    "pyside6-addons",
     "ruff>=0.14.8",
     "scikit-learn>=1.8.0",
     "scipy>=1.16.3",
@@ -37,9 +48,18 @@ dependencies = [
     "tqdm>=4.67.1",
 ]
 
+[tool.uv]
+# Resolve for all three target platforms so uv.lock works for students on
+# Windows, macOS, and Linux - not just the machine that last ran 'uv sync'.
+required-environments = [
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'win32' and platform_machine == 'AMD64'",
+]
+
 [tool.ruff]
 extend-include = ["*.ipynb"]
 lint.extend-select = ["I", "C4", "ISC", "SIM", "TCH"]
 lint.ignore = []
 show-fixes = true
-target-version = "py312"
+target-version = "py314"
