@@ -1,4 +1,9 @@
 #!/usr/bin/env -S uv run
+"""teensy_bench.py
+
+Drives a Teensy over a serial link to sample an analog signal, then plots
+the captured waveform alongside its Blackman-windowed frequency spectrum.
+"""
 
 import time
 

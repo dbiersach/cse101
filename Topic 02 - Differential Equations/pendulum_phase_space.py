@@ -110,7 +110,7 @@ def main():
     omega_initial = 0.0
     dt = 0.05
     t_symplectic = 500  # seconds for symplectic methods
-    t_euler = 20        # shorter for Forward Euler (it blows up fast)
+    t_euler = 20  # shorter for Forward Euler (it blows up fast)
 
     E0 = total_energy(theta_initial, omega_initial)
 
@@ -165,14 +165,18 @@ def main():
 
     # --- Print energy drift summary ---
     print(f"\nE0 = {E0:.6f}")
-    print(f"{'Method':<22} {'t_run (s)':>10} {'Final E':>12} {'Drift':>12} {'Drift %':>10}")
+    print(
+        f"{'Method':<22} {'t_run (s)':>10} {'Final E':>12} {'Drift':>12} {'Drift %':>10}"
+    )
     print("-" * 70)
     for name in methods:
         t, theta, omega, color, alpha, lw = results[name]
         E_final = total_energy(theta[-1], omega[-1])
         drift = E_final - E0
         drift_pct = 100 * drift / abs(E0)
-        print(f"{name:<22} {t[-1]:>10.0f} {E_final:>12.6f} {drift:>+12.6f} {drift_pct:>+10.2f}%")
+        print(
+            f"{name:<22} {t[-1]:>10.0f} {E_final:>12.6f} {drift:>+12.6f} {drift_pct:>+10.2f}%"
+        )
 
     plt.show()
 
