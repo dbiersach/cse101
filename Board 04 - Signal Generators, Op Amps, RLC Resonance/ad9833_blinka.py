@@ -88,8 +88,8 @@ class AD9833:
 
     def __init__(
         self,
-        spi: "busio.SPI",
-        cs: "digitalio.DigitalInOut",
+        spi: busio.SPI,
+        cs: digitalio.DigitalInOut,
         *,
         mclk: float = 25_000_000.0,
         baudrate: int = 1_000_000,
@@ -215,7 +215,7 @@ class AD9833:
         prefix = _FREQ1_PREFIX if reg else _FREQ0_PREFIX
 
         # Convert to 28-bit tuning word: f_out = (MCLK / 2^28) * word
-        word28 = int(round(hz * (1 << 28) / self.mclk)) & 0x0FFFFFFF
+        word28 = round(hz * (1 << 28) / self.mclk) & 0x0FFFFFFF
         lsw = prefix | (word28 & 0x3FFF)  # lower 14 bits
         msw = prefix | ((word28 >> 14) & 0x3FFF)  # upper 14 bits
 
@@ -237,7 +237,7 @@ class AD9833:
         prefix = _PHASE1_PREFIX if reg else _PHASE0_PREFIX
         # 12-bit phase word maps 0..2π to 0..4095
         phase_word = (
-            int(round((radians % (2 * math.pi)) * (4096.0 / (2 * math.pi)))) & 0x0FFF
+            round((radians % (2 * math.pi)) * (4096.0 / (2 * math.pi))) & 0x0FFF
         )
         self._write_words([prefix | phase_word])
 

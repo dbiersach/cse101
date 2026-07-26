@@ -92,7 +92,7 @@ def plot_capture(volts, time_ms):
     time_win = time_ms[:end_idx]
 
     # Plot
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
+    _, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
 
     # Time domain (top)
     ax1.plot(time_win, volts_win, linewidth=0.6)

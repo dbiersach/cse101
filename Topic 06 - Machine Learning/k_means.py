@@ -44,7 +44,10 @@ class DataPoint:
 
     x: float = field(default=0.0)
     y: float = field(default=0.0)
-    cluster: "Cluster | None" = field(default=None)
+    # Python 3.14 evaluates annotations lazily (PEP 649), so Cluster can be
+    # named here even though it is defined further down. On 3.13 and earlier
+    # this would need to be quoted.
+    cluster: Cluster | None = field(default=None)
 
 
 @dataclass

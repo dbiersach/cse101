@@ -11,7 +11,7 @@ from matplotlib.ticker import (
 )
 
 # Load measured (actual) volts from the RLC circuit
-file_name = file_name = "rlc_resonance.csv"
+file_name = "rlc_resonance.csv"
 file_path = Path(__file__).parent / file_name
 freq, volts_actual = np.genfromtxt(file_path, delimiter=",", unpack=True)
 
