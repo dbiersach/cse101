@@ -52,7 +52,11 @@ def plot_idft(ax, ts, fr):
 def plot_power_spectrum(ax, ct):
     num_terms = 40
     ax.bar(
-        range(0, num_terms), abs(ct[:num_terms]), color="green", label="sine", zorder=2
+        range(0, num_terms),
+        abs(ct[:num_terms]) ** 2,
+        color="green",
+        label="sine",
+        zorder=2,
     )
     ax.grid(which="major", axis="x", color="black", linewidth=1)
     ax.grid(which="minor", axis="x", color="lightgray", linewidth=1)
@@ -63,16 +67,25 @@ def plot_power_spectrum(ax, ct):
     ax.yaxis.set_minor_locator(AutoMinorLocator())
     ax.set_title("Power Spectrum")
     ax.set_xlabel("frequency", loc="right")
-    ax.set_ylabel(r"$\Vert amplitude \Vert$")
+    ax.set_ylabel(r"${|amplitude|}^2$")
 
 
 def main(file_name):
     file_path = Path(__file__).parent / file_name
     ts, fs = np.genfromtxt(file_path, delimiter=",", unpack=True)
 
-    ct = 2 / len(fs) * fft(fs)
-    yr = len(fs) / 2 * ifft(ct)
-    ct[0] /= 2  # DC value should NOT be doubled
+    # Raw FFT coefficients for the full two-sided spectrum
+    fft_raw = fft(fs)
+
+    # Use the raw coefficients for exact reconstruction
+    yr = ifft(fft_raw).real
+
+    # Scale FFT bins as one-sided amplitudes
+    # The plot will only display *positive* frequency bins
+    ct = 2 / len(fs) * fft_raw
+
+    # DC has no negative-frequency partner, so do not double it
+    ct[0] /= 2
 
     plt.figure(
         Path(__file__).name + f" ({file_name})",
@@ -81,7 +94,7 @@ def main(file_name):
 
     plot_samples(plt.subplot(2, 2, 1), ts, fs)
     plot_dft(plt.subplot(2, 2, 2), ct)
-    plot_idft(plt.subplot(2, 2, 3), ts, np.real(yr))
+    plot_idft(plt.subplot(2, 2, 3), ts, yr)
     plot_power_spectrum(plt.subplot(2, 2, 4), ct)
 
     plt.tight_layout()
@@ -94,6 +107,7 @@ if __name__ == "__main__":
     # file_name = "space_signal2.csv"
     # file_name = "space_signal3.csv"
     # file_name = "sunspots.csv"
-    # file_name = "samples_square.csv"
     # file_name = "samples_decay.csv"
+    # file_name = "unknown_wave.csv"
+    # file_name = "samples_square.csv"
     main(file_name)
