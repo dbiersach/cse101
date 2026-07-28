@@ -57,6 +57,39 @@ Guidelines:
 
 ---
 
+### Markdown Cell Structure
+
+Every markdown cell after the first one in a notebook must begin with a
+horizontal rule on its own line, followed by a `###` header:
+
+```markdown
+---
+### Setup: simulation parameters
+
+The simulation runs from ...
+```
+
+The rule draws a visible line between the cell and the output of the code cell
+above it, which otherwise run together in the notebook view.
+
+Header rules:
+
+- Start at `###`. Never use `#` or `##`, which render so large that a short
+  heading eats a disproportionate amount of vertical space.
+- `###` is the only level used for section headers. Sub-points inside a section
+  are made with bold lead-ins or lists, not `####`.
+- The very first cell of the notebook is the only exception to the rule: it
+  opens directly with its `###` title, since there is no output above it to
+  separate.
+- A markdown cell that follows another markdown cell still takes the rule. The
+  separator doubles as a section break, so it stays even where there is no code
+  output above it.
+
+Do not open a markdown cell with a bolded run-in sentence such as
+`**Simulation parameters.**`. Write a real `###` header instead.
+
+---
+
 ### Every Code Cell Must Display Output
 
 Never write a code cell that produces no visible output. A cell containing
@@ -387,6 +420,72 @@ LaTeX":
 These are properties of the development machine, not style rules. They are
 recorded here so that time is not lost rediscovering them.
 
+### A notebook cell that never finishes has three likely causes
+
+The symptom is identical in all three cases - a cell that spins forever with
+no error - so check them in this order rather than guessing:
+
+1. A GUI matplotlib backend blocking the kernel (see below).
+2. `ipykernel` 7 dropping reply messages on Windows (see below).
+3. A stale VS Code extension host or an orphaned kernel process (see below).
+
+Before any of that, confirm the notebook code is innocent by executing it
+outside VS Code:
+
+```sh
+.venv\Scripts\python.exe -m jupyter nbconvert --to notebook --execute "path\to\notebook.ipynb"
+```
+
+If that succeeds, the fault is in the environment, not the courseware.
+
+### Force the inline matplotlib backend in notebooks
+
+The venv's default backend is `qtagg`, because PySide6 is installed so that
+standalone `.py` scripts can open an interactive plot window. That default is
+wrong inside a Jupyter kernel: `plt.show()` opens a Qt window that blocks the
+kernel, and the cell never returns.
+
+Two layers guard against this, and both should stay in place:
+
+- Every notebook that imports matplotlib puts `%matplotlib inline` in its
+  first code cell, right after the docstring and cell-label comment. This
+  travels with the `.ipynb` file, so it works for students on any machine.
+- The workspace file sets `"jupyter.runStartupCommands": ["%matplotlib inline"]`
+  as a backstop for kernels started outside a notebook that carries the magic.
+
+Standalone scripts are unaffected and keep their interactive Qt window. A
+notebook that genuinely needs a live animation uses `%matplotlib widget`
+instead, never the Qt backend.
+
+### Pin `ipykernel<7` on Windows
+
+`ipykernel` 7 rewrote the subshell and control-channel handling, and on
+Windows it drops `execute_reply` and idle messages. VS Code then shows a cell
+as perpetually running even though the kernel already finished and went idle
+(vscode-jupyter issues #17228 and #17234).
+
+`pyproject.toml` pins `ipykernel<7`, which resolves to the 6.x line. Nothing
+in this repository uses subshells, so there is no functional loss. Do not
+lift the pin without rechecking those issues.
+
+### Clear orphaned kernel processes
+
+Kernel processes accumulate across VS Code sessions and outlive the notebooks
+that started them. Each one holds a connection file in
+`%APPDATA%\jupyter\runtime`, and a pile of them is what a "zombie kernel"
+looks like from the notebook side.
+
+List them, and check the `CommandLine` for `ipykernel_launcher` entries
+pointing at this project's `.venv`:
+
+```powershell
+Get-CimInstance Win32_Process -Filter "Name='python.exe'" |
+    Select-Object ProcessId, CommandLine
+```
+
+Stop those with `Stop-Process -Force`, then reload the window as described
+below.
+
 ### Reload VS Code after a `uv sync` that changes packages
 
 After any `uv sync` that adds, removes, or upgrades a package, the VS Code
@@ -400,10 +499,9 @@ with no error message.
   environment while the contents of `.venv` are swapped underneath it. The
   notebook, the venv, `ipykernel`, and the matplotlib inline config are all
   fine.
-- To tell a real hang from this one, execute the notebook outside VS Code
-  with `jupyter nbconvert --execute` or drive a kernel directly through
-  `jupyter_client.start_new_kernel`. If those succeed, the problem is the
-  extension host, not the code.
+- Besides the `nbconvert` check above, driving a kernel directly through
+  `jupyter_client.start_new_kernel` also isolates this case: it talks to the
+  same kernel over ZMQ without the extension host in the way.
 
 ### Quantum chemistry packages cannot be installed on this machine
 
