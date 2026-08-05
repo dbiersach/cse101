@@ -41,6 +41,7 @@ dependencies = [
     "pyserial>=3.5",
     "pyside6",
     "pyside6-addons",
+    "rich>=15.0.0",
     "ruff>=0.14.8",
     "scikit-learn>=1.8.0",
     "scipy>=1.16.3",

@@ -205,6 +205,33 @@ Instead:
 
 ---
 
+## American English Only
+
+Use American spelling everywhere you write prose or identifiers: comments,
+docstrings, markdown cells, variable and function names, plot titles, axis
+labels, and printed output. British spellings are treated as errors, and the
+workspace spell checker flags them.
+
+The differences that come up most often:
+
+| Use | Not |
+| --- | --- |
+| color, coloring, colored | colour, colouring, coloured |
+| behavior, favor, labor | behaviour, favour, labour |
+| center, meter, liter, fiber | centre, metre, litre, fibre |
+| normalize, initialize, analyze | normalise, initialise, analyse |
+| labeled, labeling, modeled | labelled, labelling, modelled |
+| gray | grey |
+| license, defense | licence, defence |
+
+This applies to text **you** write. Do not rewrite British spellings that are
+already inside third-party data files, quoted sources, proper nouns, or library
+APIs. `periodic_table.json` carries Wikipedia text with "aluminium" and
+"colourless" in it, and "GSI Helmholtz Centre" is an organization's real name.
+Those stay exactly as they are.
+
+---
+
 ## Notebook Teaching Style
 
 When writing notebooks:
