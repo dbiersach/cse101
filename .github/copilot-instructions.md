@@ -57,6 +57,39 @@ Guidelines:
 
 ---
 
+### Markdown Cell Structure
+
+Every markdown cell after the first one in a notebook must begin with a
+horizontal rule on its own line, followed by a `###` header:
+
+```markdown
+---
+### Setup: simulation parameters
+
+The simulation runs from ...
+```
+
+The rule draws a visible line between the cell and the output of the code cell
+above it, which otherwise run together in the notebook view.
+
+Header rules:
+
+- Start at `###`. Never use `#` or `##`, which render so large that a short
+  heading eats a disproportionate amount of vertical space.
+- `###` is the only level used for section headers. Sub-points inside a section
+  are made with bold lead-ins or lists, not `####`.
+- The very first cell of the notebook is the only exception to the rule: it
+  opens directly with its `###` title, since there is no output above it to
+  separate.
+- A markdown cell that follows another markdown cell still takes the rule. The
+  separator doubles as a section break, so it stays even where there is no code
+  output above it.
+
+Do not open a markdown cell with a bolded run-in sentence such as
+`**Simulation parameters.**`. Write a real `###` header instead.
+
+---
+
 ### Every Code Cell Must Display Output
 
 Never write a code cell that produces no visible output. A cell containing
@@ -142,12 +175,6 @@ def square(x: float) -> float:
 
 ## Imports
 
-Follow this order:
-
-1. Standard library
-2. Third-party packages
-3. Local modules
-
 Use standard aliases:
 
 ```python
@@ -178,11 +205,30 @@ Instead:
 
 ---
 
-## Variable Naming
+## American English Only
 
-- Use **clear, descriptive names**
-- Avoid overly short or cryptic variables unless standard (e.g., `x`, `t`)
-- Prefer readability over brevity
+Use American spelling everywhere you write prose or identifiers: comments,
+docstrings, markdown cells, variable and function names, plot titles, axis
+labels, and printed output. British spellings are treated as errors, and the
+workspace spell checker flags them.
+
+The differences that come up most often:
+
+| Use | Not |
+| --- | --- |
+| color, coloring, colored | colour, colouring, coloured |
+| behavior, favor, labor | behaviour, favour, labour |
+| center, meter, liter, fiber | centre, metre, litre, fibre |
+| normalize, initialize, analyze | normalise, initialise, analyse |
+| labeled, labeling, modeled | labelled, labelling, modelled |
+| gray | grey |
+| license, defense | licence, defence |
+
+This applies to text **you** write. Do not rewrite British spellings that are
+already inside third-party data files, quoted sources, proper nouns, or library
+APIs. `periodic_table.json` carries Wikipedia text with "aluminium" and
+"colourless" in it, and "GSI Helmholtz Centre" is an organization's real name.
+Those stay exactly as they are.
 
 ---
 
@@ -203,22 +249,41 @@ Good pattern:
 
 ---
 
-## Formatting
+## Environment Notes
 
-- Code must be compatible with:
-  - Ruff
-  - Black
+These are properties of the development machine, not style rules.
 
-- Follow consistent spacing and formatting
-- Avoid overly dense code blocks
+### Force the inline matplotlib backend in notebooks
+
+The venv's default backend is `qtagg`, because PySide6 is installed so that
+standalone `.py` scripts can open an interactive plot window. That default is
+wrong inside a Jupyter kernel: `plt.show()` opens a Qt window that blocks the
+kernel, and the cell never returns.
+
+Two layers guard against this, and both should stay in place:
+
+- Every notebook that imports matplotlib puts `%matplotlib inline` in its
+  first code cell, right after the docstring and cell-label comment. This
+  travels with the `.ipynb` file, so it works for students on any machine.
+- The workspace file sets `"jupyter.runStartupCommands": ["%matplotlib inline"]`
+  as a backstop for kernels started outside a notebook that carries the magic.
+
+Standalone scripts are unaffected and keep their interactive Qt window. A
+notebook that genuinely needs a live animation uses `%matplotlib widget`
+instead, never the Qt backend.
 
 ---
 
-## Summary
+## Reference Material Loaded On Demand
 
-All code in this repository should:
+Two longer references used to live in this file. They are now skills under
+`.claude/skills/`, so Claude Code loads them only when the task calls for
+them instead of on every session. Other tools should read the files directly.
 
-- Be easy to read
-- Be easy to teach from
-- Clearly explain both **how** and **why**
-- Follow consistent structure across notebooks and scripts
+- `.claude/skills/office-latex/SKILL.md` - Office-compatible LaTeX for the
+  Microsoft 365 Equation Editor (PowerPoint and Word), including Dirac
+  bra-ket notation.
+- `.claude/skills/machine-environment-notes/SKILL.md` - diagnosing a notebook
+  cell that hangs or never finishes, clearing orphaned kernel processes,
+  reloading VS Code after a `uv sync`, and why quantum chemistry packages
+  cannot be installed on this machine.
