@@ -22,6 +22,7 @@ dependencies = [
     "adafruit-circuitpython-register>=1.11.1",
     "adafruit-circuitpython-si5351>=1.4.9",
     "adafruit-circuitpython-ticks>=1.1.5",
+    "beautifulsoup4>=4.15.0",
     "hidapi>=0.14.0.post4",
     # Pin to the stable 6.x line: ipykernel 7's subshell/control-channel
     # rewrite drops execute_reply/idle messages on Windows, leaving VS Code
@@ -45,8 +46,10 @@ dependencies = [
     "ruff>=0.14.8",
     "scikit-learn>=1.8.0",
     "scipy>=1.16.3",
+    "selenium>=4.46.0",
     "sympy>=1.14.0",
     "tqdm>=4.67.1",
+    "webdriver-manager>=4.1.2",
 ]
 
 [tool.uv]
