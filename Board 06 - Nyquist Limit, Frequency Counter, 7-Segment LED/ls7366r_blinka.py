@@ -7,7 +7,9 @@
 #   - SPI MOSI -> LS7366R MOSI (RXD)
 #   - SPI MISO -> LS7366R MISO (TXD)
 #   - Chip Select (any GPIO) -> LS7366R SS/
-#   - VDD -> 3V3 (or 5V if your board is 5V-tolerant on SPI)
+#   - VDD -> 3V3 (only use 5V if your board is 5V-tolerant on SPI - the
+#     RP2040 is not, so a 5V LS7366R would drive 5V on MISO into a 3.3V pin)
+#     At 3.3V the LS7366R counts up to 20 MHz; at 5V it counts up to 40 MHz.
 #   - VSS -> GND
 #   - To count simple pulses feed your pulses to A, tie B HIGH (count up)
 #     or LOW (count down). Leave INDEX unconnected unless you use it.
