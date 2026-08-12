@@ -3,14 +3,11 @@
 
 import os
 
+os.environ.setdefault("BLINKA_U2IF", "1")
+
 import board
 import hid
 import serial.tools.list_ports as lp
-
-if os.environ.get("BLINKA_U2IF") == "1":
-    print("✅ BLINKA_U2IF environment variable is set")
-else:
-    print("❌ BLINKA_U2IF environment variable is NOT set")
 
 ports = list(lp.comports())
 u2if_port = None
