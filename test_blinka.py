@@ -5,7 +5,6 @@ import os
 
 os.environ.setdefault("BLINKA_U2IF", "1")
 
-import board
 import hid
 import serial.tools.list_ports as lp
 
@@ -28,7 +27,15 @@ for d in devices:
     if d["vendor_id"] == 0xCAFE and d["product_id"] == 0x4005:
         print("✅ U2IF HID Device Found")
 
-if hasattr(board, "I2C"):
-    print("✅ I2C is available")
-
-print(f"✅ Board pins:\n{dir(board)}")
+# Importing board is the step that opens the Blinka connection, so it is the
+# first thing to fail when no board is attached. The serial and HID checks
+# above need no board and are what explain such a failure, so they run first
+# and this import is guarded rather than allowed to stop the script.
+try:
+    import board
+except (ImportError, OSError, RuntimeError) as exc:
+    print(f"❌ Could not import board: {exc}")
+else:
+    if hasattr(board, "I2C"):
+        print("✅ I2C is available")
+    print(f"✅ Board pins:\n{dir(board)}")
