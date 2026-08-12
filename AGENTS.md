@@ -45,6 +45,7 @@ docstring and the cell-label comment must select an inline backend:
 """example_notebook.ipynb"""
 
 # Cell 01 - Import packages
+
 %matplotlib inline
 
 import matplotlib.pyplot as plt
