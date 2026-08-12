@@ -3,9 +3,9 @@
 Check that every notebook which uses matplotlib also selects an inline
 backend in its first code cell.
 
-The venv's default backend is `qtagg`, because PySide6 is installed so that
-standalone `.py` scripts can open an interactive plot window. That default
-is wrong inside a Jupyter kernel: `plt.show()` opens a Qt window that blocks
+The venv's default backend is `qtagg`, because a Qt binding is installed so
+that standalone `.py` scripts can open an interactive plot window. That
+default is wrong inside a Jupyter kernel: `plt.show()` opens a Qt window that blocks
 the kernel, and the cell never returns. The fix is a `%matplotlib inline`
 line in the notebook itself, which travels with the `.ipynb` file and so
 works for students on any machine.
@@ -126,8 +126,8 @@ def hook_main() -> int:
     try:
         payload = json.loads(sys.stdin.read())
     # UnicodeDecodeError and json.JSONDecodeError both subclass ValueError.
-    # Catching the base class keeps this file valid on Python 3.13, which
-    # QIS101 uses: the unparenthesized "except A, B" form is 3.14 and later.
+    # Catching the base class keeps this file valid on Python 3.13 as well:
+    # the unparenthesized "except A, B" form is 3.14 and later only.
     except ValueError:
         return 0
 
