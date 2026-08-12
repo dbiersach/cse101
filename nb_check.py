@@ -125,7 +125,10 @@ def hook_main() -> int:
     """
     try:
         payload = json.loads(sys.stdin.read())
-    except UnicodeDecodeError, json.JSONDecodeError:
+    # UnicodeDecodeError and json.JSONDecodeError both subclass ValueError.
+    # Catching the base class keeps this file valid on Python 3.13, which
+    # QIS101 uses: the unparenthesized "except A, B" form is 3.14 and later.
+    except ValueError:
         return 0
 
     tool_input = payload.get("tool_input") or {}
