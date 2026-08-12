@@ -1,6 +1,9 @@
-# rc_filter.py
-# Simulation of passive RC filter from 10 Hz to 1 MHz
-# Demonstrates low-pass and high-pass frequency response
+#!/usr/bin/env -S uv run
+"""rc_filter.py
+
+Simulation of passive RC filter from 10 Hz to 1 MHz
+Demonstrates low-pass and high-pass frequency response
+"""
 
 import matplotlib.pyplot as plt
 import numpy as np

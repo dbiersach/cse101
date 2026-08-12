@@ -1,8 +1,15 @@
-# pwm_led.py
-# Fade external RED LED from off to on to off in
+#!/usr/bin/env -S uv run
+"""pwm_led.py
+
+Fade external RED LED from off to on to off in
+"""
 
 # Uses (1) 330 Ohm Resistor
 # Uses (1) RED LED (660 nm Wavelength, 1.85V, 20mA)
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import board
 import pwmio

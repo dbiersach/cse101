@@ -1,9 +1,16 @@
-# button_debounce.py
-# Cycle NeoPixel through colors on button press
+#!/usr/bin/env -S uv run
+"""button_debounce.py
+
+Cycle NeoPixel through colors on button press
+"""
 
 # Uses (1) Adafruit NeoPixel
 # Uses (1) Adafruit Colorful Tactile Button Switch
 # https://www.adafruit.com/product/1010
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import board
 import digitalio

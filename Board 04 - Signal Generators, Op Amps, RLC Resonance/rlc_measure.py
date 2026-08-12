@@ -1,5 +1,8 @@
-# rlc_measure.py
-# Measure frequency response of driven RLC circuit
+#!/usr/bin/env -S uv run
+"""rlc_measure.py
+
+Measure frequency response of driven RLC circuit
+"""
 
 # Uses AITRIP AD9833 Signal Generator
 # Uses TLV2462 Omp Amp
@@ -7,6 +10,10 @@
 # Uses (1) 10 Ohm & (1) 100 Ohm Resistor
 # Uses 100 mH inductor (L)
 # Uses 100nF capacitor (C)
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 from pathlib import Path
 

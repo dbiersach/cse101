@@ -1,8 +1,15 @@
-# cycle_neopixel.py
-# Cycle NeoPixel through colors
+#!/usr/bin/env -S uv run
+"""cycle_neopixel.py
+
+Cycle NeoPixel through colors
+"""
 
 # Uses (1) Adafruit NeoPixel
 # https://www.adafruit.com/product/1558
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 

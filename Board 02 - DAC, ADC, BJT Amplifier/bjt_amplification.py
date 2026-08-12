@@ -1,11 +1,18 @@
-# bjt_amplification.py
-# Measure BJT voltage over cutoff, active, and saturation
-# regions when configured as a Common-Emitter amplifier
+#!/usr/bin/env -S uv run
+"""bjt_amplification.py
+
+Measure BJT voltage over cutoff, active, and saturation
+regions when configured as a Common-Emitter amplifier
+"""
 
 # Uses (1) PN2222A NPN BJT
 # Uses (2) 1K Ohm Resistors
 # Uses (1) MCP4725 DAC
 # Uses (1) ADS1115 ADC
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 from pathlib import Path
 

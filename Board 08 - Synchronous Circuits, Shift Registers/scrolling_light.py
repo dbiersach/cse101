@@ -1,9 +1,16 @@
-# scrolling_light.py
-# Control 8 LEDs using a 74HC595 Shift Register
+#!/usr/bin/env -S uv run
+"""scrolling_light.py
+
+Control 8 LEDs using a 74HC595 Shift Register
+"""
 
 # Uses (1) 74HC595 Shift Register
 # Uses (1) LTA-1000G 10-LED strip
 # Uses (8) 220 Ω resistors
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 

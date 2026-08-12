@@ -1,7 +1,14 @@
-# signal_gen.py
-# Measure sine wave frequency and amplitude
+#!/usr/bin/env -S uv run
+"""signal_gen.py
+
+Measure sine wave frequency and amplitude
+"""
 
 # Uses (1) AITRIP AD9833 Signal Generator
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 from pathlib import Path

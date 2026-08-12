@@ -1,9 +1,16 @@
-# op_amp.py
-# Measure sine wave frequency and amplitude
+#!/usr/bin/env -S uv run
+"""op_amp.py
+
+Measure sine wave frequency and amplitude
+"""
 
 # Uses (1) AITRIP AD9833 Signal Generator
 # Uses (1) Adafruit TLV2462 Op Amp
 # Uses (1) 10K Ohm and (1) 22K Ohm Resistor
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 from pathlib import Path

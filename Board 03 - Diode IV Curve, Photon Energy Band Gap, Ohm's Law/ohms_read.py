@@ -1,11 +1,18 @@
-# ohms_read.py
-# Measure current through various resistor
+#!/usr/bin/env -S uv run
+"""ohms_read.py
+
+Measure current through various resistor
+"""
 
 # Uses (1) MCP4725 DAC
 # Uses (1) INA219 Current Sensor
 # Uses (1) PN2222A BJT
 # Uses (1) 330 Ohm and (1) 10K Ohm Resistor
 # Uses (1) 47 Ohm, (1) 56 Ohm, and (1) 68 Ohm Resistor
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 from pathlib import Path

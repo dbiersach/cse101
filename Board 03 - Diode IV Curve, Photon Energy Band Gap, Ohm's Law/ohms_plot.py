@@ -1,5 +1,5 @@
-# ohms_plot.py
-
+#!/usr/bin/env -S uv run
+"""ohms_plot.py"""
 
 from pathlib import Path
 

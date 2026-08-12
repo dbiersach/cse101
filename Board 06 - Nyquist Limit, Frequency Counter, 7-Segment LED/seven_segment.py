@@ -1,8 +1,15 @@
-# seven_segment.py
-# Display digits 0-9 on a 7-segment LED display
+#!/usr/bin/env -S uv run
+"""seven_segment.py
+
+Display digits 0-9 on a 7-segment LED display
+"""
 
 # Uses (1) 330 Ohm Resistor
 # Uses (1) Seven-Segment LED Display (Common Cathode)
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 

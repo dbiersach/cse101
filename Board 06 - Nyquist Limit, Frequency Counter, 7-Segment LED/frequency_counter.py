@@ -1,5 +1,8 @@
-# frequency_counter.py
-# Determine the capture limit of a hardware frequency counter
+#!/usr/bin/env -S uv run
+"""frequency_counter.py
+
+Determine the capture limit of a hardware frequency counter
+"""
 
 # Uses (1) LSI Computer Systems LS7366R Counter
 # Uses (1) Adafruit Si5351A Clock Generator
@@ -17,6 +20,10 @@
 # So we sweep the Si5351A from 1 MHz to 30 MHz. Below 20 MHz the counter
 # should track the clock generator almost perfectly. Above 20 MHz it starts
 # missing pulses, and the measured frequency falls behind the true frequency.
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 from pathlib import Path

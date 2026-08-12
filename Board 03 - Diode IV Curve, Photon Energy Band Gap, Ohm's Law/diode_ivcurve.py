@@ -1,9 +1,16 @@
-# diode_ivcurve.py
-# Measure current through PN junction diode
+#!/usr/bin/env -S uv run
+"""diode_ivcurve.py
+
+Measure current through PN junction diode
+"""
 
 # Uses (1) MCP4725 DAC
 # Uses (1) INA219 Current Sensor
 # Uses (1) 1N4001 Diode
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 from pathlib import Path
 

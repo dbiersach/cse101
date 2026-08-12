@@ -1,11 +1,18 @@
-# notch_filter.py
-# Test a Twin-T Notch Filter (723 Hz center frequency)
+#!/usr/bin/env -S uv run
+"""notch_filter.py
+
+Test a Twin-T Notch Filter (723 Hz center frequency)
+"""
 
 # Uses (1) AITRIP AD9833 Signal Generator
 # Uses (1) Microchip MCP6002 Op-Amp
 # Uses (1) 10K Ohm and (5) 22K Ohm Resistors
 # Uses (4) 10nf Capacitors
 # Uses (1) Adafruit 8 Ohm Speaker
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 

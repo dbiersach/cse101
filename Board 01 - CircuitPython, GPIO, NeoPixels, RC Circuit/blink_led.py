@@ -1,8 +1,15 @@
-# blink_led.py
-# Blink external RED LED on and off
+#!/usr/bin/env -S uv run
+"""blink_led.py
+
+Blink external RED LED on and off
+"""
 
 # Uses (1) 330 Ohm Resistor
 # Uses (1) RED LED (660 nm Wavelength, 1.85V, 20mA)
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 

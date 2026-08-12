@@ -1,11 +1,18 @@
-# band_gap.py
-# Compare forward voltage of RED vs BLUE LEDs
+#!/usr/bin/env -S uv run
+"""band_gap.py
+
+Compare forward voltage of RED vs BLUE LEDs
+"""
 
 # Uses (1) MCP4725 DAC
 # Uses (1) PN2222A BJT
 # Uses (1) 330 Ohm Resistor
 # Uses (1) 10K Ohm Resistor
 # Uses (1) Blue LED
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 

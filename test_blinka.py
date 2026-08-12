@@ -1,4 +1,5 @@
-# test_blinka.py
+#!/usr/bin/env -S uv run
+"""test_blinka.py"""
 
 import os
 

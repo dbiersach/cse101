@@ -1,5 +1,8 @@
-# biot_savart.py
-# Measure the strength of an electromagnet
+#!/usr/bin/env -S uv run
+"""biot_savart.py
+
+Measure the strength of an electromagnet
+"""
 
 # Uses (1) Adafruit MMC5603 Triple-axis Magnetometer
 # Uses (1) Adafruit INA260 Current Sensor
@@ -8,6 +11,9 @@
 # Uses (1) Adafruit 200mm Qwiic Cable
 # Uses (1) 330 Ω resistor
 
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 from pathlib import Path
 

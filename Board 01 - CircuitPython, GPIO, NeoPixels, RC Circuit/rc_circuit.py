@@ -1,8 +1,15 @@
-# rc_circuit.py
-# Voltage across charging and discharging resistor-capacitor circuit
+#!/usr/bin/env -S uv run
+"""rc_circuit.py
+
+Voltage across charging and discharging resistor-capacitor circuit
+"""
 
 # Uses (1) 10K ohm resistor (1/2 watt, 1% tolerance)
 # Uses (1) 10uF 25V electrolytic capacitor (20% tolerance)
+
+import os
+
+os.environ.setdefault("BLINKA_U2IF", "1")
 
 import time
 from pathlib import Path

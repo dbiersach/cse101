@@ -1,5 +1,8 @@
-# rlc_plot_actual.py
-# Plot actual frequency response of driven RLC circuit
+#!/usr/bin/env -S uv run
+"""rlc_plot_actual.py
+
+Plot actual frequency response of driven RLC circuit
+"""
 
 from pathlib import Path
 
