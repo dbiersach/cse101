@@ -80,8 +80,8 @@ times = times - times[0]
 samples = np.column_stack((times, volts))
 file_name = "samples_ad9833.csv"
 file_path = Path(__file__).parent / file_name
-np.savetxt(file_name, samples, fmt="%3.6f", delimiter=",")
-print(f"Saved file {file_name}")
+np.savetxt(file_path, samples, fmt="%3.6f", delimiter=",")
+print(f"Saved file {file_path}")
 
 # Find the number of peaks in sampled waveform
 volt_threshold = 0.34  # Maximum output of AD9833 sine wave is 0.68V

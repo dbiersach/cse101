@@ -76,5 +76,5 @@ print(f"Actual Resonance freq = {resonance_freq_actual:0.4f} kHz")
 samples = np.column_stack((freq, volts_actual))
 file_name = "rlc_resonance.csv"
 file_path = Path(__file__).parent / file_name
-np.savetxt(file_name, samples, fmt="%3.6f", delimiter=",")
-print(f"Saved file {file_name}")
+np.savetxt(file_path, samples, fmt="%3.6f", delimiter=",")
+print(f"Saved file {file_path}")
