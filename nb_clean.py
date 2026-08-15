@@ -59,7 +59,7 @@ def main() -> None:
     # that is not a parseable notebook passes straight through untouched.
     try:
         notebook = json.loads(raw.decode("utf-8"))
-    except UnicodeDecodeError, json.JSONDecodeError:
+    except (UnicodeDecodeError, json.JSONDecodeError):
         sys.stdout.buffer.write(raw)
         return
 
